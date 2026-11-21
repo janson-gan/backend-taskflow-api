@@ -11,19 +11,19 @@ import { createApp } from "../src/server";
  * 3. Timestamp is valid ISO 8601 format
  */
 
-describe("GET / health", () => {
+describe("GET /api/v1/health", () => {
   const app = createApp();
 
   describe("Success", () => {
     it("should return 200 OK with status ok", async () => {
-      const response = await request(app).get("/health");
+      const response = await request(app).get("/api/v1/health");
 
       expect(response.status).toBe(200);
       expect(response.body.status).toBe("ok");
     });
 
     it("should return valid ISO 8601 timestamp", async () => {
-      const response = await request(app).get("/health");
+      const response = await request(app).get("/api/v1/health");
 
       expect(response.body.timestamp).toBeDefined();
       expect(new Date(response.body.timestamp).toISOString()).toBe(
@@ -32,7 +32,7 @@ describe("GET / health", () => {
     });
 
     it("Should return valid JSON content-type", async () => {
-      const response = await request(app).get("/health");
+      const response = await request(app).get("/api/v1/health");
 
       expect(response.type).toBe("application/json");
     });
@@ -40,7 +40,7 @@ describe("GET / health", () => {
 
   describe("Response structure", () => {
     it("Should contain exactly required fiedls", async () => {
-      const response = await request(app).get("/health");
+      const response = await request(app).get("/api/v1/health");
       const bodyKeys = Object.keys(response.body);
 
       expect(bodyKeys.length).toBe(4);
@@ -53,7 +53,7 @@ describe("GET / health", () => {
 
   describe("Response version field", () => {
     it("Should contain version number", async () => {
-      const response = await request(app).get("/health");
+      const response = await request(app).get("/api/v1/health");
 
       expect(response.body.version).toBe("1.0.0");
       expect(response.body.version).toBeTypeOf("string");
@@ -61,12 +61,12 @@ describe("GET / health", () => {
   });
 });
 
-describe("Get /nonexistence", () => {
+describe("Get /api/v1/nonexistence", () => {
   const app = createApp();
 
   describe("Not found", () => {
     it("Should return 404 and not found message for non-existence route", async () => {
-      const response = await request(app).get("/nonexistence");
+      const response = await request(app).get("/api/v1/nonexistence");
 
       expect(response.status).toBe(404);
       expect(response.body).toEqual({ message: "Route not found" });
@@ -74,7 +74,7 @@ describe("Get /nonexistence", () => {
   });
 
   it("Should return valid JSON content type", async () => {
-    const response = await request(app).get("/nonexistence");
+    const response = await request(app).get("/api/v1/nonexistence");
 
     expect(response.type).toBe("application/json");
   });

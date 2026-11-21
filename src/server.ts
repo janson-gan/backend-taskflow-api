@@ -19,8 +19,8 @@ export function createApp(): Express {
     next();
   });
 
-  // Routes
-  app.use("/health", healthRouter);
+  // V1 endpoint routes
+  app.use("/api/v1/health", healthRouter);
 
   // 404 handler
   app.use((req: Request, res: Response) => {
