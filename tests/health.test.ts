@@ -54,7 +54,9 @@ describe("GET / health", () => {
   describe("Response version field", () => {
     it("Should contain version number", async () => {
       const response = await request(app).get("/health");
+
       expect(response.body.version).toBe("1.0.0");
+      expect(response.body.version).toBeTypeOf("string");
     });
   });
 });
@@ -63,7 +65,7 @@ describe("Get /nonexistence", () => {
   const app = createApp();
 
   describe("Not found", () => {
-    it("Should return 404 and not found message", async () => {
+    it("Should return 404 and not found message for non-existence route", async () => {
       const response = await request(app).get("/nonexistence");
 
       expect(response.status).toBe(404);
