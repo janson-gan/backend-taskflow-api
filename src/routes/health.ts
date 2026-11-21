@@ -16,6 +16,7 @@ app.get("/", (req: Request, res: Response) => {
     success: true,
     status: "ok",
     timestamp: new Date().toISOString(),
+    version: "1.0.0",
   });
 });
 

@@ -43,9 +43,37 @@ describe("GET / health", () => {
       const response = await request(app).get("/health");
       const bodyKeys = Object.keys(response.body);
 
-      expect(bodyKeys.length).toBe(3);
+      expect(bodyKeys.length).toBe(4);
+      expect(response.body).toHaveProperty("success");
       expect(response.body).toHaveProperty("status");
       expect(response.body).toHaveProperty("timestamp");
+      expect(response.body).toHaveProperty("version");
     });
+  });
+
+  describe("Response version field", () => {
+    it("Should contain version number", async () => {
+      const response = await request(app).get("/health");
+      expect(response.body.version).toBe("1.0.0");
+    });
+  });
+});
+
+describe("Get /nonexistence", () => {
+  const app = createApp();
+
+  describe("Not found", () => {
+    it("Should return 404 and not found message", async () => {
+      const response = await request(app).get("/nonexistence");
+
+      expect(response.status).toBe(404);
+      expect(response.body).toEqual({ message: "Route not found" });
+    });
+  });
+
+  it("Should return valid JSON content type", async () => {
+    const response = await request(app).get("/nonexistence");
+
+    expect(response.type).toBe("application/json");
   });
 });
